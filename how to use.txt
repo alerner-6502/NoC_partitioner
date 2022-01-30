@@ -1,0 +1,153 @@
+By: Anatoly Lerner
+Date: 27-01-22
+
+1. Insert your SD card (with linux installed) into your DE1-SoC board
+
+2. Power up your FPGA to your computer via UART_TO_USB terminal (micro_usb)
+
+3. Start PuTTY terminal, press ENTER, and enter "root" for login.
+
+4. Connect your FPGA to your computer via Ethernet port.
+
+4. The computer may have restrict communication with your FPGA. To disable the firewall for private networks you can do the following:
+   a. Navigate to "control panel -> Network and Internet -> Network and sharing center" and verify the status
+      of the unidentified network (it's probably Public)
+   b. Navigate to "Change advanced sharing settings" and activate "Network discovery", "Automatic setup" and "File and printer sharing" for PRIVATE networks.
+   c. Start "powershell" with Ctrl+WINDOWS_KEY and execute the following command: "Set-NetConnectionProfile -Name "Unidentified network" -NetWorkCategory Private".
+   d. Just in case, disable firewall for PRIVATE networks: "Control Panel -> System and Security -> Windows Defender Firewall".
+
+5. You'll need to assign an IP address to your FPGA board. To do so
+   you'll need to find out the IP address of your computer (automatically assigned).
+   Rum CMD.exe, type "ipconfig" and press enter. An example is provided bellow.
+   In this case IP=169.254.127.22 with MASK=255.255.0.0
+   
+    Ethernet adapter Ethernet:
+
+	   Connection-specific DNS Suffix  . :
+	   Link-local IPv6 Address . . . . . : fe80::4905:ef9e:6593:7f16%17
+	   Autoconfiguration IPv4 Address. . : 169.254.127.22
+	   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+	   Default Gateway . . . . . . . . . :
+
+	Wireless LAN adapter Wi-Fi:
+
+	   Media State . . . . . . . . . . . : Media disconnected
+	   Connection-specific DNS Suffix  . : staff.corp.local
+
+6. Go back to PuTTY (FPGA's linux terminal), type "ip a" and press enter.
+   An example is provided bellow. As can be seen, "eth0" has no IP
+   address assigned to it. Let's assign it.
+
+	   root@socfpga:~# ip a
+	1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue
+		link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+		inet 127.0.0.1/8 scope host lo
+		   valid_lft forever preferred_lft forever
+		inet6 ::1/128 scope host
+		   valid_lft forever preferred_lft forever
+	2: can0: <NOARP40000> mtu 16 qdisc noop qlen 10
+		link/[280]
+	3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+		link/ether 02:f4:a4:9e:d0:c1 brd ff:ff:ff:ff:ff:ff
+	4: sit0: <NOARP> mtu 1480 qdisc noop
+		link/sit 0.0.0.0 brd 0.0.0.0
+	root@socfpga:~#
+
+7. To assign an IP address enter "ifconfig eth0 [ip_address] netmask [mask]"
+   and press enter. For example: "ifconfig eth0 169.254.127.23 netmask 255.255.0.0"
+   The IP address can be set to anyting within the netmask's range, except for:
+   169.254.127.22  (Your PC's IP address) 
+   169.254.0.0     (Network address)
+   169.254.0.1     (Gateway address) 
+   169.254.255.255 (Brodcast address)
+   
+ 8. Go back to your PC's CMD and test the connection with the ping command:
+    For example: "ping 169.254.127.23"
+
+	C:\Users\alerner>ping 169.254.127.23
+
+	Pinging 169.254.127.23 with 32 bytes of data:
+	Reply from 169.254.127.23: bytes=32 time=1ms TTL=64
+	Reply from 169.254.127.23: bytes=32 time=1ms TTL=64
+	
+9. You can also test ping from your FPGA board:
+   For example: "ping 169.254.127.22"
+
+	root@socfpga:~# ping 169.254.127.22
+	PING 169.254.127.22 (169.254.127.22) 56(84) bytes of data.
+	64 bytes from 169.254.127.22: icmp_req=1 ttl=128 time=0.946 ms
+	64 bytes from 169.254.127.22: icmp_req=2 ttl=128 time=0.992 ms
+	64 bytes from 169.254.127.22: icmp_req=3 ttl=128 time=0.892 ms
+	
+10. Applications will send data to each other via ports. Let's test it out using the "netcat" utility (nc.exe).
+    Netcat is shipped together with your linux (DE1_SoC_SD.img), but it's not available on windows.
+	Download a SAFE compiled version from: joncraton.org/blog/46/netcat-for-windows/
+	This SAFE version has remote access disabled, wich saves it from the wrath of Windows Defender
+	(windows will automatically detect and delete the unsafe version!)
+	
+11. Go back to PuTTY (linux terminal), and start server_udp example program "./server_udp 9090".
+    It will now listen for UDP packets from your PC at port 9090.
+	
+12. Go back to your PC's CMD, navigate to "nc.exe" location (with cd commands) and execute the following:
+    "nc.exe -u 169.254.127.23 9090" Example: "C:\Users\alerner\Documents\VKR\nc111nt_safe>nc.exe -u 169.254.127.23 9090"
+	You should see a blank line. Enter random text and press enter. The same text should appear in your PuTTy terminal.
+	
+	CMD example:
+	
+		C:\Users\alerner\Documents\VKR\nc111nt_safe>nc.exe -u 169.254.127.23 9090
+		hello
+		Got your message
+		world
+		Got your message
+		madoka
+		Got your message
+		magika
+		Got your message
+	
+	PuTTY example:
+
+		root@socfpga:~# ./server_udp
+		ERROR, no port provided
+		root@socfpga:~# ./server_udp 9090
+		Received a datagram: hello
+		Received a datagram: world
+		Received a datagram: madoka
+		Received a datagram: magika
+		
+13. You can also send data from your FPGA to your PC. To do so, exit both programs with "Ctrl+C", and execute
+    The following command in your PC's CMD window: "nc.exe -l -p 9090 169.254.127.23" or just "nc.exe -l -p 9090"
+	
+14. Now go back to PuTTY and execute "nc 169.254.127.22 9090". You should see a blank line. Enter random text and press enter. 
+    The same text should appear in your CMD terminal.
+	
+	PuTTY example:
+
+		root@socfpga:~# nc 169.254.127.22 9090
+		hello
+		madoka
+		magika
+
+	CMD example:
+	
+		C:\Users\alerner\Documents\VKR\nc111nt_safe>nc.exe -l -p 9090 169.254.127.23
+		hello
+		madoka
+		magika
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
