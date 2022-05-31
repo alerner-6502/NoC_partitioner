@@ -1,0 +1,105 @@
+set_global_assignment -name FAMILY "Cyclone V"
+set_global_assignment -name DEVICE 5CSEMA5F31C6
+set_global_assignment -name TOP_LEVEL_ENTITY main
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.0.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:45:19  MAY 31, 2022"
+set_global_assignment -name LAST_QUARTUS_VERSION "17.0.0 Lite Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+set_location_assignment PIN_AB12 -to i_rst
+set_location_assignment PIN_AC12 -to i_start
+set_location_assignment PIN_AF14 -to CLOCK_50
+set_location_assignment PIN_V16 -to o_ready
+
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/async_fifo.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/auto_bitslip.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/gray_counter.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/reciever.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/rxtx_bridge_lvds.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/scheduler.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/state_machine.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/transmitter.sv
+set_global_assignment -name VERILOG_FILE ../common/lvds_reciever.v
+set_global_assignment -name VERILOG_FILE ../common/lvds_transmitter.v
+set_global_assignment -name SYSTEMVERILOG_FILE noc_0.sv
+
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_clk_1
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[0]
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[1]
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[2]
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[3]
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[4]
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[5]
+set_instance_assignment -name IO_STANDARD LVDS_E_3R -to o_tx_1[6]
+
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_clk_1
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[0]
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[1]
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[2]
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[3]
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[4]
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[5]
+set_instance_assignment -name IO_STANDARD LVDS -to i_rx_1[6]
+
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_clk_1
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_clk_1(n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[0]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[0](n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[1]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[1](n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[2]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[2](n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[3]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[3](n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[4]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[4](n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[5]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[5](n)"
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to i_rx_1[6]
+set_instance_assignment -name INPUT_TERMINATION DIFFERENTIAL -to "i_rx_1[6](n)"
+
+set_location_assignment PIN_AA21 -to o_tx_clk_1
+set_location_assignment PIN_AB21 -to "o_tx_clk_1(n)"
+set_location_assignment PIN_AH23 -to o_tx_1[0]
+set_location_assignment PIN_AJ22 -to "o_tx_1[0](n)"
+set_location_assignment PIN_AG22 -to o_tx_1[1]
+set_location_assignment PIN_AH22 -to "o_tx_1[1](n)"
+set_location_assignment PIN_AF23 -to o_tx_1[2]
+set_location_assignment PIN_AF24 -to "o_tx_1[2](n)"
+set_location_assignment PIN_AJ16 -to o_tx_1[3]
+set_location_assignment PIN_AK16 -to "o_tx_1[3](n)"
+set_location_assignment PIN_AJ19 -to o_tx_1[4]
+set_location_assignment PIN_AK19 -to "o_tx_1[4](n)"
+set_location_assignment PIN_AH17 -to o_tx_1[5]
+set_location_assignment PIN_AH18 -to "o_tx_1[5](n)"
+set_location_assignment PIN_AG16 -to o_tx_1[6]
+set_location_assignment PIN_AG17 -to "o_tx_1[6](n)"
+
+set_location_assignment PIN_AC18 -to i_rx_clk_1
+set_location_assignment PIN_AD17 -to "i_rx_clk_1(n)"
+set_location_assignment PIN_AE18 -to i_rx_1[0]
+set_location_assignment PIN_AE19 -to "i_rx_1[0](n)"
+set_location_assignment PIN_AF20 -to i_rx_1[1]
+set_location_assignment PIN_AF21 -to "i_rx_1[1](n)"
+set_location_assignment PIN_AF19 -to i_rx_1[2]
+set_location_assignment PIN_AG20 -to "i_rx_1[2](n)"
+set_location_assignment PIN_Y17 -to i_rx_1[3]
+set_location_assignment PIN_AA18 -to "i_rx_1[3](n)"
+set_location_assignment PIN_Y18 -to i_rx_1[4]
+set_location_assignment PIN_AA19 -to "i_rx_1[4](n)"
+set_location_assignment PIN_AJ17 -to i_rx_1[5]
+set_location_assignment PIN_AK18 -to "i_rx_1[5](n)"
+set_location_assignment PIN_AE17 -to i_rx_1[6]
+set_location_assignment PIN_AF18 -to "i_rx_1[6](n)"
