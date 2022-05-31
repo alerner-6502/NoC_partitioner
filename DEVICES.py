@@ -9,8 +9,7 @@ de1_soc = {
     "RESET_PIN"        : "AB12",
     "START_PIN"        : "AC12",
     "READY_PIN"        : "V16",
-    "PLL_DIFF_PINS"    : [["AC18","AD17"],\
-                          ["????","????"]],   #!!!!!!!!!!!!!!!!!!!
+    "PLL_DIFF_PINS"    : [["AC18","AD17"]]
     "INPUT_DIFF_PINS"  : [["AE18","AE19"],\
                           ["AF20","AF21"],\
                           ["AF19","AG20"],\
