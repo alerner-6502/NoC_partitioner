@@ -17,8 +17,8 @@ dev_params = {"DESCRIPTION" : str, "FAMILY" : str, "DEVICE" : str, "CLOCK_MHZ" :
               "CLOCK_PIN" : str, "RESET_PIN" : str, "START_PIN" : str, "READY_PIN" : str,\
               "PLL_DIFF_PINS" : list, "INPUT_DIFF_PINS" : list, "OUTPUT_DIFF_PINS" : list}
               
-template_files = {"async_fifo.sv", "auto_bitslip.sv", "gray_counter.sv", "lvds_reciever.v",\
-                  "lvds_transmitter.v",  "reciever.sv", "rxtx_bridge_lvds.sv", "state_machine.sv",\
+template_files = {"async_fifo.sv", "auto_bitslip.sv", "gray_counter.sv", "lvds_receiver.v",\
+                  "lvds_transmitter.v",  "receiver.sv", "rxtx_bridge_lvds.sv", "state_machine.sv",\
                   "scheduler.sv", "transmitter.sv", "main_0", "main_1", "qpf_file", "qsf_file"}
             
 month_dict = { 1:"Janauary", 2:"February", 3:"March", 4:"April", 5:"May", 6:"June", 7:"July", \
@@ -62,7 +62,7 @@ print(" ok")
 print("template files ".ljust(26, '.'), end='')
 
 if not os.path.isdir("./templates"): 
-    abort("\"tampletes\" folder is missing")
+    abort("\"templates\" folder is missing")
     
 if not set(os.listdir("./templates")) >= template_files:
     abort("some files are missing from the \"templates\" folder")
@@ -126,7 +126,7 @@ for x in PAR.FPGA_DEVICES:
                 
                 if len(z) != 2:  
                     abort("sublists for the " + str(y) + " key in the \"" + str(x["DESCRIPTION"]) + \
-                          "\" dictionary should have a lenght of 2")
+                          "\" dictionary should have a length of 2")
                 
                 if (type(z[0]) is not str) or (type(z[1]) is not str): 
                     abort("sublists for the " + str(y) + " key in the \"" + str(x["DESCRIPTION"]) + \
