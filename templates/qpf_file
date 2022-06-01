@@ -1,6 +1,0 @@
-QUARTUS_VERSION = "17.0"
-DATE = "$00:$01:$02  $03 $04, $05"
-
-# Revisions
-
-PROJECT_REVISION = "main"
