@@ -1,0 +1,6 @@
+QUARTUS_VERSION = "17.0"
+DATE = "0:8:24  June 2, 2022"
+
+# Revisions
+
+PROJECT_REVISION = "main"
